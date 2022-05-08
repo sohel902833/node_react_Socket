@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <h1 id="serverData"></h1>
+    <h1 id="broadCast"></h1>
+
+
+    <input type="text" id="name">
+    <button id="send" onclick="sendData()">Send</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const ot=document.querySelector("#serverData")
+        let socket=io();
+        socket.on("takeData",(res)=>{
+            ot.textContent=res
+        })
+        //receive data fro broadcast
+        socket.on("MyBroadCast",(data)=>{
+           const broadCast=document.querySelector("#broadCast");
+           broadCast.textContent=data;     
+        })
+        function sendData(){
+            const input=document.querySelector("#name");
+            const value=input.value
+
+            socket.send(value)
+
+
+            input.value=""
+        }
+
+    </script>
+
+</body>
+</html>
